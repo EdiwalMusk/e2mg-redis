@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import redis.clients.jedis.Jedis;
 
+import java.util.UUID;
+
 /**
  * 描述
  *
@@ -30,7 +32,7 @@ public class TestJedisPool {
      * 测试锁
      */
     @Test
-    public void testGet()  {
+    public void testGet() {
         jedis.set("a", String.valueOf(5));
         System.out.println(jedis.get("a"));
     }
@@ -40,6 +42,13 @@ public class TestJedisPool {
         for (int i = 0; i < 100; i++) {
             System.out.println(i);
             JedisFactory.getJedis();
+        }
+    }
+
+    @Test
+    public void testSAdd100000() {
+        for (int i = 0; i < 100000; i++) {
+            jedis.sadd("set100000", UUID.randomUUID().toString());
         }
     }
 
